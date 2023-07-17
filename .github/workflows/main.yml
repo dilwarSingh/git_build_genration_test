@@ -26,8 +26,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: windows_${{ github.run_number }}
-          release_name: Release-Windows ${{ github.run_number }}
+          tag_name: tag_${{ github.run_number }}_windows
+          release_name: Release_${{ github.run_number }}_Windows
       - name: Upload Windows Release Asset
         uses: actions/upload-release-asset@v1
         env:
@@ -62,8 +62,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: linux_${{ github.run_number }}
-          release_name: Release-Linux ${{ github.run_number }}
+          tag_name: tag_${{ github.run_number }}_linux
+          release_name: Release_${{ github.run_number }}_Linux
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
