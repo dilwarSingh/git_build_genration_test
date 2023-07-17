@@ -26,11 +26,9 @@ jobs:
         with:
           name: git_build_genration_test_linux
           path: build/linux/x64/release/bundle
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Development Build"
-          files: |
-            build/linux/x64/release/bundle/git_build_genration_test_linux.zip
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
