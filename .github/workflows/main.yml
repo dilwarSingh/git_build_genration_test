@@ -48,6 +48,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-new-release.outputs.upload_url }}
-          asset_path: ./
-          asset_name: git_build_genration_test_linux.zip
+          asset_name: linux_release.zip
           asset_content_type: application/zip         
