@@ -27,6 +27,11 @@ jobs:
         with:
           name: git_build_genration_test_linux
           path: build/linux/x64/release/bundle
+      - name: Zip Release
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          filename: linux_release.zip
+          path: build/linux/x64/release/bundle
       - name: Dir Print
         run: ls -R
       - name: Create Release
