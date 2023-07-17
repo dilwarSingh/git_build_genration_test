@@ -75,10 +75,6 @@ jobs:
           asset_content_type: application/zip
           
           
-          
-          
-          
-          
 #      - uses: actions/upload-artifact@v3.1.2
 #        with:
 #          name: git_build_genration_test_windows
