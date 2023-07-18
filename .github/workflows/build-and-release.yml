@@ -51,25 +51,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  build_windows:
+    runs-on: windows-latest
+    needs: create-github-release
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-  #      - name: Create Release On Github
-  #        id: create-new-release-linux
-  #        uses: actions/create-release@v1
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #        with:
-  #          tag_name: tag_${{ github.run_number }}_linux
-  #          release_name: Release_${{ github.run_number }}_Linux
-  #
-  #
-  #      - name: Upload Release Artifact
-  #        uses: actions/upload-release-asset@v1
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #        with:
-  #          upload_url: ${{ steps.create-new-release-linux.outputs.upload_url }}
-  #          asset_name: linux_release-v${{ github.run_number }}.zip
-  #          asset_path: ./linux_release.zip
-  #          asset_content_type: application/zip
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2.10.0
+        with:
+          channel: 'stable'
+      - run: flutter config --enable-windows-desktop
 
+      - name: Build Application
+        run: flutter build windows --release
 
+      - name: zip release windows
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          filename: windows_release.zip
+          path: build\windows\runner\Release
+
+      - name: Upload Build
+        run: |
+          gh release upload tag_${{ github.run_number }} 'windows_release.zip#windows_release-v${{ github.run_number }}.zip' --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
