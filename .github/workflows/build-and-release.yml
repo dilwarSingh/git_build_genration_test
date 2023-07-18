@@ -61,6 +61,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Create Draft Release
-        run: gh release create ${{ github.ref }} --draft --generate-notes
+        run: |
+          ls
+          gh release create ${{ github.ref }} --draft --generate-notes --title 'R_${{ github.run_number }}_Linux'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
