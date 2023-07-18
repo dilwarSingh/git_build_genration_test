@@ -20,20 +20,20 @@ jobs:
         with:
           filename: windows_release.zip
           path: build\windows\runner\Release
-      - name: Create Windows Release
-        id: create-new-release-windows
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: tag_${{ github.run_number }}_windows
-          release_name: Release_${{ github.run_number }}_Windows
+#       - name: Create Windows Release
+#         id: create-new-release-windows
+#         uses: actions/create-release@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           tag_name: tag_${{ github.run_number }}_windows
+#           release_name: Release_${{ github.run_number }}_Windows
       - name: Upload Windows Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create-new-release-windows.outputs.upload_url }}
+          upload_url: ${{ steps.create-new-release-linux.outputs.upload_url }}
           asset_name: windows_release-v${{ github.run_number }}.zip
           asset_path: windows_release.zip
           asset_content_type: application/zip
@@ -56,20 +56,20 @@ jobs:
         with:
           filename: linux_release.zip
           path: build/linux/x64/release/bundle
-#       - name: Create Linux Release
-#         id: create-new-release-linux
-#         uses: actions/create-release@v1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           tag_name: tag_${{ github.run_number }}_linux
-#           release_name: Release_${{ github.run_number }}_Linux
+      - name: Create Linux Release
+        id: create-new-release-linux
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: tag_${{ github.run_number }}_linux
+          release_name: Release_${{ github.run_number }}_Linux
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create-new-release-windows.outputs.upload_url }}
+          upload_url: ${{ steps.create-new-release-linux.outputs.upload_url }}
           asset_name: linux_release-v${{ github.run_number }}.zip
           asset_path: ./linux_release.zip
           asset_content_type: application/zip
