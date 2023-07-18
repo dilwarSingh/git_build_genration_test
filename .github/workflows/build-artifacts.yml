@@ -1,4 +1,4 @@
-name: Flutter CI
+name: Build Artifacts
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - name: Add Artifacts
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: git_build_genration_test_windows
+          name: windows_build
           path: build\windows\runner\Release
 
 
@@ -39,5 +39,5 @@ jobs:
       - name: Add Artifacts
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: git_build_genration_test_linux
+          name: linux_build
           path: build/linux/x64/release/bundle
