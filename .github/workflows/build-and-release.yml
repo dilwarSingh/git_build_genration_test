@@ -49,6 +49,7 @@ jobs:
         run: |
           ls
           gh release upload ${{ github.ref }} './linux_release.zip#linux_release-v${{ github.run_number }}.zip'
+          gh release edit ${{ github.ref }} --draft=false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
