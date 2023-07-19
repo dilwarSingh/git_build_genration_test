@@ -44,12 +44,12 @@ jobs:
       - name: Create Zip Release Linux
         uses: TheDoctor0/zip-release@0.7.1
         with:
-          filename: linux_release.zip
+          filename: linux_release_22.zip
           path: build/linux/x64/release/bundle
 
       - name: Upload Build
         run: |
-          gh release upload tag_${{ github.run_number }} './linux_release.zip#linux_release_22-v${{ github.run_number }}.zip' --clobber
+          gh release upload tag_${{ github.run_number }} './linux_release_22.zip#linux_release_22-v${{ github.run_number }}.zip' --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -76,12 +76,12 @@ jobs:
       - name: Create Zip Release Linux
         uses: TheDoctor0/zip-release@0.7.1
         with:
-          filename: linux_release.zip
+          filename: linux_release_20.zip
           path: build/linux/x64/release/bundle
 
       - name: Upload Build
         run: |
-          gh release upload tag_${{ github.run_number }} './linux_release.zip#linux_release_20-v${{ github.run_number }}.zip' --clobber
+          gh release upload tag_${{ github.run_number }} './linux_release_20.zip#linux_release_20-v${{ github.run_number }}.zip' --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
