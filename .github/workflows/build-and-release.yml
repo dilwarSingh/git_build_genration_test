@@ -55,7 +55,7 @@ jobs:
 
   build_linux_20:
     name: Add Linux Build 20
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: create-github-release
     steps:
       - name: Checkout Code
