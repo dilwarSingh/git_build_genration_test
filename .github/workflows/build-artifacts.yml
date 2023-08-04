@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_desktop_artifacts:
-    name: Build and publish desktop artifacts
+    name: Desktop build and publish
     strategy:
       matrix:
         os: [ ubuntu-latest, ubuntu-20.04, windows-latest ]
@@ -53,7 +53,7 @@ jobs:
           path: ${{ matrix.build_output }}
 
   build_web_artifacts:
-    name: Build and publish web artifact
+    name: Web build and publish
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3

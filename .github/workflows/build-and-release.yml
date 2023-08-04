@@ -25,7 +25,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
 
   build_release_desktop_apps:
-    name: Build and publish Desktop release apps
+    name: Desktop build and publish
     needs: create-github-release
     strategy:
       matrix:
@@ -85,7 +85,8 @@ jobs:
 
 
   build_web_artifacts:
-    name: Build and publish web artifact
+    name: Web build and publish
+    needs: create-github-release
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
