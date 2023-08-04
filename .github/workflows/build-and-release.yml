@@ -30,6 +30,11 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, ubuntu-20.04 ]
+        include:
+          - os: ubuntu-latest
+            os_alias: 22
+          - os: ubuntu-20.04
+            os_alias: 20
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Code
@@ -47,21 +52,21 @@ jobs:
       - name: Build Application
         run: flutter build linux --release
 
-      - name: Create Zip Release Linux ${{ matrix.os }}
+      - name: Create Zip Release Linux ${{ matrix.os_alias }}
         uses: TheDoctor0/zip-release@0.7.1
         with:
-          filename: linux_release_${{ matrix.os }}.zip
+          filename: linux_release_${{ matrix.os_alias }}.zip
           path: build/linux/x64/release/bundle
 
       - name: Upload Private Build
         run: |
-          gh release upload tag_${{ github.run_number }} './linux_release_${{ matrix.os }}.zip#linux_release_${{ matrix.os }}-v${{ github.run_number }}.zip' --clobber
+          gh release upload tag_${{ github.run_number }} './linux_release_${{ matrix.os_alias }}.zip#linux_release_${{ matrix.os_alias }}-v${{ github.run_number }}.zip' --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Public Build
         run: |
-          gh release upload tag_${{ github.run_number }} './linux_release_${{ matrix.os }}.zip#linux_release_${{ matrix.os }}-v${{ github.run_number }}.zip' --clobber -R https://github.com/dilwarSingh/git_build_release
+          gh release upload tag_${{ github.run_number }} './linux_release_${{ matrix.os_alias }}.zip#linux_release_${{ matrix.os_alias }}-v${{ github.run_number }}.zip' --clobber -R https://github.com/dilwarSingh/git_build_release
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
 
