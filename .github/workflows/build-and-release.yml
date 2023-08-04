@@ -57,7 +57,6 @@ jobs:
           echo CHANNEL=${{ steps.flutter-action.outputs.CHANNEL }}
           echo VERSION=${{ steps.flutter-action.outputs.VERSION }}
           echo ARCHITECTURE=${{ steps.flutter-action.outputs.ARCHITECTURE }}
-        shell: bash
 
       - name: Build Application
         run: flutter build linux --release
