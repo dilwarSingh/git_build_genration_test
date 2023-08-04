@@ -34,8 +34,8 @@ jobs:
         with:
           channel: 'stable'
           cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:${{ hashFiles('**/pubspec.lock') }}" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:${{ hashFiles('**/pubspec.lock') }}"
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
       - if: ${{ matrix.os_name == 'linux' }}
         run: |
           sudo apt-get update -y
@@ -51,3 +51,27 @@ jobs:
         with:
           name: ${{ matrix.os_name }}-${{ matrix.os_ver }}_build
           path: ${{ matrix.build_output }}
+
+  build_web_artifacts:
+    name: Build and publish web artifact
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2.10.0
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:${{ hashFiles('**/pubspec.lock') }}" # optional, change this to force refresh cache
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+
+      - name: Build Web
+        run: |
+          flutter config --enable-web
+          flutter build web --debug
+
+      - name: Add Artifacts
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: windows_build
+          path: build/web
