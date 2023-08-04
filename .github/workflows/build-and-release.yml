@@ -17,4 +17,4 @@ jobs:
       - name: Create Draft Release
         run: gh release create tag_${{ github.run_number }} --generate-notes --title 'Release_${{ github.run_number }}' -R https://github.com/dilwarSingh/git_build_release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
