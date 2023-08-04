@@ -68,7 +68,7 @@ jobs:
       - name: Build Web
         run: |
           flutter config --enable-web
-          flutter build web --debug
+          flutter build web
 
       - name: Add Artifacts
         uses: actions/upload-artifact@v3.1.2

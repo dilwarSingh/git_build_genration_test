@@ -82,3 +82,40 @@ jobs:
           gh release upload tag_${{ github.run_number }} './${{ matrix.os_name }}_release_${{ matrix.os_ver }}.zip#${{ matrix.os_name }}_release_${{ matrix.os_ver }}-v${{ github.run_number }}.zip' --clobber -R https://github.com/dilwarSingh/git_build_release
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
+
+
+  build_web_artifacts:
+    name: Build and publish web artifact
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2.10.0
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:${{ hashFiles('**/pubspec.lock') }}" # optional, change this to force refresh cache
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+
+      - name: Build Web
+        run: |
+          flutter config --enable-web
+          flutter build web --release
+
+      - name: Create Zip Release web
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          filename: web_release.zip
+          path: build/web
+
+      - name: Upload Private Build
+        run: |
+          gh release upload tag_${{ github.run_number }} './web_release.zip#web_release-v${{ github.run_number }}.zip' --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Public Build
+        run: |
+          gh release upload tag_${{ github.run_number }} './web_release.zip#web_release-v${{ github.run_number }}.zip' --clobber -R https://github.com/dilwarSingh/git_build_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
