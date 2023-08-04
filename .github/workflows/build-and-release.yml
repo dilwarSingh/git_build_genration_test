@@ -24,8 +24,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
 
-  build_apps:
-    name: Add Builds
+  build_release_desktop_apps:
+    name: Build and publish Desktop release apps
     needs: create-github-release
     strategy:
       matrix:
