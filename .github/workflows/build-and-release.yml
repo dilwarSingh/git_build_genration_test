@@ -15,10 +15,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Create Draft Release
-        run: gh release create tag_${{ github.run_number }} --generate-notes --title 'Release_${{ github.run_number }}' -R https://github.com/dilwarSingh/git_build_release
+      - name: Create Private Release
+        run: gh release create tag_${{ github.run_number }} --generate-notes --title 'Release_${{ github.run_number }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Public Release
+        run: gh release create tag_${{ github.run_number }} --generate-notes --title 'Release_${{ github.run_number }}' -R https://github.com/dilwarSingh/git_build_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
 
   build_linux_22:
     name: Add Linux Build 22
@@ -46,11 +50,17 @@ jobs:
           filename: linux_release_22.zip
           path: build/linux/x64/release/bundle
 
-      - name: Upload Build
+      - name: Upload Private Build
         run: |
           gh release upload tag_${{ github.run_number }} './linux_release_22.zip#linux_release_22-v${{ github.run_number }}.zip' --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Public Build
+        run: |
+          gh release upload tag_${{ github.run_number }} './linux_release_22.zip#linux_release_22-v${{ github.run_number }}.zip' --clobber -R https://github.com/dilwarSingh/git_build_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
 
   build_linux_20:
     name: Add Linux Build 20
@@ -78,11 +88,17 @@ jobs:
           filename: linux_release_20.zip
           path: build/linux/x64/release/bundle
 
-      - name: Upload Build
+      - name: Upload Private Build
         run: |
           gh release upload tag_${{ github.run_number }} './linux_release_20.zip#linux_release_20-v${{ github.run_number }}.zip' --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Public Build
+        run: |
+          gh release upload tag_${{ github.run_number }} './linux_release_20.zip#linux_release_20-v${{ github.run_number }}.zip' --clobber -R https://github.com/dilwarSingh/git_build_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
 
 
   build_windows:
@@ -108,8 +124,14 @@ jobs:
           filename: windows_release.zip
           path: build\windows\runner\Release
 
-      - name: Upload Build
+      - name: Upload Private Build
         run: |
           gh release upload tag_${{ github.run_number }} 'windows_release.zip#windows_release-v${{ github.run_number }}.zip' --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Public Build
+        run: |
+          gh release upload tag_${{ github.run_number }} 'windows_release.zip#windows_release-v${{ github.run_number }}.zip' --clobber -R https://github.com/dilwarSingh/git_build_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TEST_TOKEN }}
